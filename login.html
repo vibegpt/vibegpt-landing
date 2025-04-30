@@ -63,9 +63,8 @@
         },
         body: JSON.stringify({
           email: email,
-          options: {
-            redirectTo: "https://vibegpt-landing.vercel.app/success.html"
-          }
+          type: "magiclink",
+          redirect_to: "https://vibegpt-landing.vercel.app/success.html"
         })
       });
 
