@@ -49,10 +49,7 @@
     <button type="submit">Send Magic Link</button>
   </form>
 
-  <!-- ✅ Load Supabase library FIRST -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <!-- ✅ Wait until page and Supabase lib are fully ready -->
   <script>
     window.addEventListener('DOMContentLoaded', function () {
       const supabase = window.supabase.createClient(
@@ -63,7 +60,12 @@
       document.getElementById('login-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('email').value;
-        const { data, error } = await supabase.auth.signInWithOtp({ email });
+        const { data, error } = await supabase.auth.signInWithOtp({
+          email,
+          options: {
+            emailRedirectTo: 'https://vibegpt-landing.vercel.app/success.html'
+          }
+        });
 
         if (error) {
           console.error('Supabase auth error:', error);
