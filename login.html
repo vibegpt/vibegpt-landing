@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login – VibeGPT</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: linear-gradient(to bottom right, #8b5cf6, #6366f1);
+      color: white;
+      text-align: center;
+      padding: 4rem 1rem;
+    }
+    form {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 1rem;
+      display: inline-block;
+    }
+    input[type="email"] {
+      padding: 0.75rem;
+      width: 250px;
+      border-radius: 6px;
+      border: none;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    button {
+      background: #ec4899;
+      border: none;
+      color: white;
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #db2777;
+    }
+  </style>
+</head>
+<body>
+  <h1>Log in to VibeGPT</h1>
+  <p>Enter your email to get a magic login link</p>
+
+  <form id="login-form">
+    <input type="email" id="email" placeholder="Enter your email" required /><br />
+    <button type="submit">Send Magic Link</button>
+  </form>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const supabase = supabase.createClient(
+      'https://pifredicxcgxpgpzataf.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBpZnJlZGljeGNneHBncHphdGFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDYwMjA5MTQsImV4cCI6MjA2MTU5NjkxNH0.S0jy70pWE3exlaLfhyyXA3ZonkQmZhqwCrndngsMS38'
+    );
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const { error } = await supabase.auth.signInWithOtp({ email });
+      if (error) {
+        alert('Login error: ' + error.message);
+      } else {
+        alert('✅ Magic link sent! Check your inbox.');
+      }
+    });
+  </script>
+</body>
+</html>
