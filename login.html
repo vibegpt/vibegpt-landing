@@ -49,28 +49,30 @@
     <button type="submit">Send Magic Link</button>
   </form>
 
-  <!-- ✅ Load Supabase library first -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <!-- ✅ Load Supabase library FIRST -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- ✅ Then use the library -->
+  <!-- ✅ Wait until page and Supabase lib are fully ready -->
   <script>
-    const supabase = supabase.createClient(
-      'https://cnhysmiimnnxrwoehwkb.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNuaHlzbWlpbW5ueHJ3b2Vod2tiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDYwMjc0NDAsImV4cCI6MjA2MTYwMzQ0MH0.QoiweuTtypPMKEmdHlLrftP6PgZjojnQkEl-aaJR44g'
-    );
+    window.addEventListener('DOMContentLoaded', function () {
+      const supabase = window.supabase.createClient(
+        'https://cnhysmiimnnxrwoehwkb.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNuaHlzbWlpbW5ueHJ3b2Vod2tiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDYwMjc0NDAsImV4cCI6MjA2MTYwMzQ0MH0.QoiweuTtypPMKEmdHlLrftP6PgZjojnQkEl-aaJR44g'
+      );
 
-    document.getElementById('login-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const { data, error } = await supabase.auth.signInWithOtp({ email });
+      document.getElementById('login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const { data, error } = await supabase.auth.signInWithOtp({ email });
 
-      if (error) {
-        console.error('Supabase auth error:', error);
-        alert('Login failed: ' + error.message);
-      } else {
-        console.log('Magic link sent:', data);
-        alert('✅ Magic link sent! Check your inbox.');
-      }
+        if (error) {
+          console.error('Supabase auth error:', error);
+          alert('Login failed: ' + error.message);
+        } else {
+          console.log('Magic link sent:', data);
+          alert('✅ Magic link sent! Check your inbox.');
+        }
+      });
     });
   </script>
 </body>
