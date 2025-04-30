@@ -49,32 +49,33 @@
     <button type="submit">Send Magic Link</button>
   </form>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    window.addEventListener('DOMContentLoaded', function () {
-      const supabase = window.supabase.createClient(
-        'https://cnhysmiimnnxrwoehwkb.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNuaHlzbWlpbW5ueHJ3b2Vod2tiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDYwMjc0NDAsImV4cCI6MjA2MTYwMzQ0MH0.QoiweuTtypPMKEmdHlLrftP6PgZjojnQkEl-aaJR44g'
-      );
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
 
-      document.getElementById('login-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        const { data, error } = await supabase.auth.signInWithOtp({
-          email,
+      const response = await fetch("https://cnhysmiimnnxrwoehwkb.supabase.co/auth/v1/magiclink", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNuaHlzbWlpbW5ueHJ3b2Vod2tiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDYwMjc0NDAsImV4cCI6MjA2MTYwMzQ0MH0.QoiweuTtypPMKEmdHlLrftP6PgZjojnQkEl-aaJR44g",
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNuaHlzbWlpbW5ueHJ3b2Vod2tiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDYwMjc0NDAsImV4cCI6MjA2MTYwMzQ0MH0.QoiweuTtypPMKEmdHlLrftP6PgZjojnQkEl-aaJR44g"
+        },
+        body: JSON.stringify({
+          email: email,
           options: {
-            emailRedirectTo: 'https://vibegpt-landing.vercel.app/success.html'
+            redirectTo: "https://vibegpt-landing.vercel.app/success.html"
           }
-        });
-
-        if (error) {
-          console.error('Supabase auth error:', error);
-          alert('Login failed: ' + error.message);
-        } else {
-          console.log('Magic link sent:', data);
-          alert('✅ Magic link sent! Check your inbox.');
-        }
+        })
       });
+
+      if (response.ok) {
+        alert("✅ Magic link sent! Check your inbox.");
+      } else {
+        const error = await response.json();
+        console.error("Error:", error);
+        alert("❌ Login failed: " + error.msg);
+      }
     });
   </script>
 </body>
