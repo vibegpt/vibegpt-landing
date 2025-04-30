@@ -49,7 +49,10 @@
     <button type="submit">Send Magic Link</button>
   </form>
 
+  <!-- ✅ Load Supabase library first -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <!-- ✅ Then use the library -->
   <script>
     const supabase = supabase.createClient(
       'https://cnhysmiimnnxrwoehwkb.supabase.co',
